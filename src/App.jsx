@@ -1,8 +1,28 @@
-import React, { useState, useEffect } from "react"
-import { CssBaseline, Paper, Container, Grid, Typography, TextField, Button, Box, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from '@mui/material'
+import React, { useState } from "react"
+import { CssBaseline, Paper, Container, Grid, Typography, TextField, Button, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#b56576',
+      light: '#EAAC8B',
+      dark: '#355070'
+    },
+    success: {
+      main: '#6D597A',
+      light: '#EAAC8B',
+      dark: '#355070'
+    },
+    error: {
+      main: '#780000'
+    }
+  }
+})
 
 function App() {
 
@@ -24,10 +44,10 @@ function App() {
       complete: true
     },
   ])
+
   const [newTodo, setNewTodo] = useState('')
   const [showDialog, setShowDialog] = useState(false)
   const [indexToDelete, setIndexToDelete] = useState(-1)
-
 
   const addTodo = () => {
     const tmpArr = todos
@@ -64,12 +84,13 @@ function App() {
 
   return (
     <div className="App">
-      <React.Fragment>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container component='main' maxWidth='lg'>
           <Grid container justifyContent='center' alignItems='center'
             sx={{
-              height: '100vh'
+              height: '100vh',
+              bgcolor: '#22223b'
             }}>
             <Grid item xs={12} sm={8} md={6} lg={4}>
               <Paper elevation={8} sx={{ backgroundColor: "#eee", padding: "1rem" }}>
@@ -90,7 +111,7 @@ function App() {
                     }} />
                   <Button
                     variant='contained'
-                    color='secondary'
+                    color='primary'
                     disabled={!newTodo}
                     onClick={addTodo}>
                     ADD
@@ -122,6 +143,11 @@ function App() {
                             secondary={todo.complete ? 'complete' : 'incomplete'} />
                         </ListItem>)
                     })}
+                  {todos.length === 0 && (
+                    <ListItem>
+                      <ListItemText primary='No todos yet...' />
+                    </ListItem>
+                  )}
                 </List>
               </Paper>
             </Grid>
@@ -149,7 +175,7 @@ function App() {
         </Dialog>
 
 
-      </React.Fragment>
+      </ThemeProvider>
     </div>
   )
 }
